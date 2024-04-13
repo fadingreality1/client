@@ -4,6 +4,7 @@ import HomeScreen from "./screens/home/HomeScreen";
 import LoginScreen from "./screens/auth/login/LoginScreen";
 import SignupScreen from "./screens/auth/signup/SignupScreen";
 import CreatePost from "./components/post/createPost";
+import Feed from "./components/post/feed";
 import AppPaths from "./lib/appPaths";
 
 export default class Routes extends Component {
@@ -16,6 +17,7 @@ export default class Routes extends Component {
           <Route path={AppPaths.LOGIN} exact component={LoginScreen} />
           <Route path={AppPaths.SIGN_UP} exact component={SignupScreen} />
           <Route path={AppPaths.CREATE_POST} exact component={CreatePost} />
+          <Route path={AppPaths.FEED} exact component={Feed} />
         </Switch>
       </Router>
     );
