@@ -13,6 +13,7 @@ const SignupScreen = ({ history }) => {
     formState: { errors },
     watch,
   } = useForm();
+  
   const password = useRef({});
   password.current = watch("password");
   const image = watch("image");
