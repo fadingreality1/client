@@ -110,6 +110,13 @@ const Sidebar = (props) => {
         >
           Add People
         </button>
+        {/* <Link to={AppPaths.FEED}>Feeds</Link> */}
+        <button
+          onClick={() => {window.location.href = AppPaths.FEED}}
+          className="btn btn-outline-warning btn-block my-1 mt-4"
+        >
+          Feeds
+        </button>
       </div>
       <div className="user-list-container">
         {getChatListWithOnlineUser()?.map((chatUser) => {
