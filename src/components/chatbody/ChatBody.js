@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ApiConnector from "../../api/apiConnector";
 import ApiEndpoints from "../../api/apiEndpoints";
+import AppPaths from "../../lib/appPaths";
+import CookieUtil from "../../util/cookieUtil";
 import ServerUrl from "../../api/serverUrl";
 import Constants from "../../lib/constants";
 import SocketActions from "../../lib/socketActions";
@@ -107,6 +109,12 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
     }
   };
 
+  const logoutClickHandler = () => {
+    CookieUtil.deleteCookie(Constants.ACCESS_PROPERTY);
+    CookieUtil.deleteCookie(Constants.REFRESH_PROPERTY);
+    window.location.href = AppPaths.LOGIN;
+  };
+
   return (
     <div className="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-10 pl-0 pr-0">
       <div className="py-2 px-4 border-bottom d-none d-lg-block">
@@ -122,6 +130,12 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
           </div>
           <div className="flex-grow-1 pl-3">
             <strong>{currentChattingMember?.name}</strong>
+            <button
+              onClick={logoutClickHandler}
+              className="btn btn-outline-danger btn-block mt-1"
+            >
+              Log Out
+            </button>
           </div>
         </div>
       </div>
