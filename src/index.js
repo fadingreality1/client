@@ -3,9 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import Routes from "./routes";
 import reportWebVitals from "./reportWebVitals";
+import Navbar from "./screens/navbar/nav";
 
 ReactDOM.render(
   <React.StrictMode>
+    <Navbar />
     <Routes />
   </React.StrictMode>,
   document.getElementById("root")
