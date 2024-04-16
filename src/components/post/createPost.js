@@ -3,13 +3,14 @@ import ApiEndpoints from "../../api/apiEndpoints";
 import ApiConnector from "../../api/apiConnector";
 import { useForm } from "react-hook-form";
 import AppPaths from "../../lib/appPaths";
+import './createpost.css';
 import Pic1 from "../../projectPics/Pic1.jpg";
 import Pic3 from "../../projectPics/Pic3.jpg";
 import Pic2 from "../../projectPics/Pic2.jpg";
 import Pic4 from "../../projectPics/Pic4.jpg";
 import Pic5 from "../../projectPics/Pic5.jpg";
 
-const CreatePost = (props) => {
+const CreatePost = ({modal, setModal}) => {
 	const [description, setDesription] = useState("");
 	const [file, setFile] = useState(null);
 	const [postData, setPostData] = useState({});
@@ -21,9 +22,11 @@ const CreatePost = (props) => {
 	} = useForm();
 
 	const image = watch("image");
+	let display = 'none';
+	if(modal) display = 'block';
+
 	const handleClick = async (postData) => {
-		console.log("postdata ", postData);
-		console.log(image);
+		setModal(!modal);
 		const formData = new FormData();
 		formData.append("image", image[0]);
 		delete postData["image"];
@@ -37,7 +40,7 @@ const CreatePost = (props) => {
 			true,
 			true
 		);
-		window.location.href = AppPaths.FEED;
+		
 	};
 
 	// return (
@@ -58,11 +61,9 @@ const CreatePost = (props) => {
 
 	return (
 		<div
-			style={{                              // Parent div
-				backgroundImage: `url(${Pic5})`,   // set background pic
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-                // opacity:'.6',
+			className="post"
+			style={{                             
+				display: `${display}`
 			}}
 		>
 			<div

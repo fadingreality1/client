@@ -1,0 +1,7 @@
+.post {
+    /* backgroundImage: `url(${Pic5})`, */
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
