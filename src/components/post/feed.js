@@ -17,9 +17,9 @@ const Feed = () => {
 		height: "50rem",
 	};
 
-    const button = {
-        width: "5rem"
-    }
+	const button = {
+		width: "5rem"
+	}
 
 	const center = {
 		marginTop: "20px",
@@ -36,7 +36,7 @@ const Feed = () => {
 
 		feedData.map((element) => {
 			const obj = {
-                author : element.author,
+				author: element.author,
 				image: element.image,
 				description: element.description,
 			};
@@ -50,13 +50,14 @@ const Feed = () => {
 
 	return (
 		<div style={center}>
-            <button
-          onClick={() => {window.location.href = AppPaths.CREATE_POST}}
-          className="btn btn-outline-warning btn-block my-1 mt-4"
-          style={button}
-        >
-          Add Post
-        </button>
+			<button
+				onClick={() => { window.location.href = AppPaths.CREATE_POST }}
+				className="btn btn-outline-warning btn-block my-1 mt-4"
+				style={button}
+			>
+				Add Post
+			</button>
+
 			{feed.length > 0 &&
 				feed.map((ele) => {
 					return (
