@@ -54,6 +54,7 @@ const Sidebar = (props) => {
   const fetchUsers = async () => {
     const url = ApiEndpoints.USER_URL + "?exclude=" + getConnectedUserIds();
     const users = await ApiConnector.sendGetRequest(url);
+    console.log(users);
     setUsers(users);
   };
 
@@ -83,11 +84,11 @@ const Sidebar = (props) => {
     return roomId === activeChatId ? "active-chat" : "";
   };
 
-  const logoutClickHandler = () => {
-    CookieUtil.deleteCookie(Constants.ACCESS_PROPERTY);
-    CookieUtil.deleteCookie(Constants.REFRESH_PROPERTY);
-    window.location.href = AppPaths.LOGIN;
-  };
+  // const logoutClickHandler = () => {
+  //   CookieUtil.deleteCookie(Constants.ACCESS_PROPERTY);
+  //   CookieUtil.deleteCookie(Constants.REFRESH_PROPERTY);
+  //   window.location.href = AppPaths.LOGIN;
+  // };
 
   const getChatListWithOnlineUser = () => {
     let updatedChatList = chatUsers.map((user) => {
@@ -110,13 +111,13 @@ const Sidebar = (props) => {
         >
           Add People
         </button>
-        {/* <Link to={AppPaths.FEED}>Feeds</Link> */}
-        <button
+        
+        {/* <button
           onClick={() => {window.location.href = AppPaths.FEED}}
           className="btn btn-outline-warning btn-block my-1 mt-4"
         >
           Feeds
-        </button>
+        </button> */}
       </div>
       <div className="user-list-container">
         {getChatListWithOnlineUser()?.map((chatUser) => {
@@ -159,12 +160,12 @@ const Sidebar = (props) => {
           );
         })}
       </div>
-      <button
+      {/* <button
         onClick={logoutClickHandler}
         className="btn btn-outline-danger btn-block mt-1"
       >
         Log Out
-      </button>
+      </button> */}
       <hr className="d-block d-lg-none mt-1 mb-0" />
       <Modal
         modalCloseHandler={() => setIsShowAddPeopleModal(false)}

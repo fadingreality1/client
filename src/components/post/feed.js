@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ApiConnector from "../../api/apiConnector";
 import ApiEndpoints from "../../api/apiEndpoints";
 import AppPaths from "../../lib/appPaths";
+import './feed.css';
+
 import {
 	MDBCard,
 	MDBContainer,
@@ -10,26 +12,12 @@ import {
 	MDBRipple,
 	MDBRow,
 } from "mdb-react-ui-kit";
+import CreatePost from "./createPost";
 
 const Feed = () => {
-	const style = {
-		width: "50rem",
-		height: "50rem",
-	};
-
-	const button = {
-		width: "5rem"
-	}
-
-	const center = {
-		marginTop: "20px",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-	};
 
 	const [feed, setFeed] = useState([]);
+	const [modal, setModal] = useState(false);
 
 	const fetchFeeds = async () => {
 		const feedData = await ApiConnector.sendGetRequest(ApiEndpoints.FEED);
@@ -45,19 +33,21 @@ const Feed = () => {
 	};
 
 	useEffect(() => {
-		fetchFeeds();
+		// fetchFeeds();
 	}, []);
 
 	return (
-		<div style={center}>
+		<div className="check">
 			<button
-				onClick={() => { window.location.href = AppPaths.CREATE_POST }}
-				className="btn btn-outline-warning btn-block my-1 mt-4"
-				style={button}
+				// onClick={() => { window.location.href = AppPaths.CREATE_POST }}
+				onClick={() => { setModal((prev) => !prev) }}
+				className="btn btn-outline-warning btn-block my-1 mt-4 button"
+				data-toggle="modal" data-target="#exampleModal"
 			>
 				Add Post
 			</button>
-
+			<CreatePost modal={modal} setModal={setModal} />
+			fwenfkjwefn
 			{feed.length > 0 &&
 				feed.map((ele) => {
 					return (

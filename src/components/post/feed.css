@@ -1,0 +1,12 @@
+.check {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
+.button {
+    width: 5rem;
+}
