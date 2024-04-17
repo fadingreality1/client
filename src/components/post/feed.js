@@ -17,6 +17,12 @@ import CreatePost from "./createPost";
 const Feed = () => {
 	const [feed, setFeed] = useState([]);
 	const [modal, setModal] = useState(false);
+	const [likeCount, setLikeCount] = useState(0);
+	const [color, setColor] = useState({
+		btnColor: "red",
+		textColor: "white"
+	})
+
 	let current = "";
 	let opacity = 1;
 
@@ -25,6 +31,7 @@ const Feed = () => {
 	const fetchFeeds = async () => {
 		const feedData = await ApiConnector.sendGetRequest(ApiEndpoints.FEED);
 		const temp = [];
+
 		feedData.map((element) => {
 			const obj = {
 				id: element.id,
@@ -33,6 +40,7 @@ const Feed = () => {
 				description: element.description,
 				flag: element.flag,
 				likes: element.likes,
+				dateposted:element.date_posted,
 			};
 
 			temp.push(obj);
@@ -40,7 +48,7 @@ const Feed = () => {
 		setFeed(temp);
 	};
 
-	const handleLike = async(id) => {
+	const handleLike = async (id) => {
 		// const tag = event.target.tagName.toLowerCase();
 		// let icon, btn;
 		// if (tag === "button") {
@@ -55,8 +63,7 @@ const Feed = () => {
 		// icon.setAttribute("fill", "red");
 
 		// console.log(event.target);
-		console.log(id);
-		const req = {"id": id}
+		const req = { id: id };
 
 		const successLikeData = await ApiConnector.sendPostRequest(
 			ApiEndpoints.LIKE,
@@ -64,13 +71,24 @@ const Feed = () => {
 			true,
 			false
 		);
-		console.log(successLikeData)
-
+		if(successLikeData.flag) {
+			setColor({
+				btnColor: 'white',
+				textColor: 'red'
+			})
+		} else {
+			setColor({
+				btnColor: 'red',
+				textColor: 'white'
+			})
+		}
+		setLikeCount(likeCount+1)
+		
 	};
 
 	useEffect(() => {
 		fetchFeeds();
-	}, []);
+	}, [likeCount]);
 
 	return (
 		<>
@@ -117,12 +135,49 @@ const Feed = () => {
 										<div id="feedcard">
 											<MDBRow className="mb-3">
 												<MDBCol col="6">
-													<MDBIcon
+													{/* <MDBIcon
 														fas
 														icon="plane"
 														className="me-1"
-													/>
-													{ele.author}
+													/> */}
+													{/* <div style={{display:"flex",flexDirection:"row"}}>
+													<img src={ele.author.image} style={{width:"50px",height:"50px",borderRadius:"50%"}}/>
+													<p style={{fontSize:"1.4rem",textTransform:"capitalize",paddingLeft:"10px",paddingTop:"5px",fontWeight:"500"}}>{ele.author.full_name}</p>
+									a	e			</div> */}
+													<div className="d-flex flex-row align-items-center">
+														<img
+															src={
+																ele.author.image
+															}
+															alt={
+																ele.author
+																	.full_name
+															}
+															style={{
+																width: "50px",
+																height: "50px",
+																borderRadius:
+																	"50%",
+															}}
+															className="mr-3"
+														/>
+														<p
+															className="font-weight-bold"
+															style={{
+																fontSize:
+																	"1.4rem",
+																textTransform:
+																	"capitalize",
+																paddingTop:
+																	"5px",
+															}}
+														>
+															{
+																ele.author
+																	.full_name
+															}
+														</p>
+													</div>
 												</MDBCol>
 											</MDBRow>
 											<MDBRipple
@@ -146,27 +201,31 @@ const Feed = () => {
 											<button
 												class="btn btn-danger like"
 												onClick={() =>
-													handleLike(
-														ele.id
-													)
+													handleLike(ele.id)
 												}
 												id="likebtn"
 												key={ele.id}
+												style={{
+													backgroundColor: `${color.btnColor}`
+												}}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													width="16"
 													height="16"
-													fill="white"
+													fill={color.textColor}
 													class="bi bi-heart-fill"
 													viewBox="0 0 16 16"
+													
 												>
 													<path
 														fill-rule="evenodd"
 														d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
 													/>
 												</svg>
-												<span>{ele.likes}</span>
+												<span style={{
+													color: `${color.textColor}`
+												}}>{ele.likes}</span>
 											</button>
 										</div>
 									</MDBCard>

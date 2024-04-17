@@ -1,6 +1,11 @@
 import AppPaths from "../../lib/appPaths";
+import ApiConnector from "../../api/apiConnector";
+import ApiEndpoints from "../../api/apiEndpoints";
 import CookieUtil from "../../util/cookieUtil";
 import Constants from "../../lib/constants";
+import { useEffect, useState } from "react";
+import ApiUtils from "../../api/apiUtils";
+
 
 const Navbar = () => {
 	const logoutClickHandler = () => {
@@ -9,11 +14,40 @@ const Navbar = () => {
 		window.location.href = AppPaths.LOGIN;
 	};
 
+	const loginClickHandler = (e) => {
+		e.preventDefault();
+		window.location.href = AppPaths.LOGIN;
+	};
+
+	const [btn, setBtn] = useState(false);
+	const [details, setDetails] = useState({
+		first_name: "",
+		last_name: "",
+		image: "",
+	});
+
+	const getProfileDetail = async () => {
+		const url = ApiEndpoints.PROFILE_ICON;
+		const profileDetails = await ApiConnector.sendGetRequest(url);
+		setDetails(profileDetails);
+		console.log(details);
+	};
+
+	useEffect(() => {
+		const token = ApiUtils.getAuthHeader();
+		if (token.Authorization === "JWT null") {
+			setBtn(() => false);
+		} else {
+			setBtn(() => true);
+			getProfileDetail();
+		}
+	},[]);
+
 	return (
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">
-				Sandesha
-			</a>
+			<img src="./logo.png" style={{
+                width: "10rem"
+            }}/>
 
 			<button
 				class="navbar-toggler"
@@ -41,12 +75,47 @@ const Navbar = () => {
 					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
-					<button
-						onClick={logoutClickHandler}
-						className="btn btn-outline-danger btn-block mt-1"
-					>
-						Log Out
-					</button>
+					{btn ? (
+						<div>
+							<div className="d-flex flex-row align-items-center">
+								<img
+									src={`http://127.0.0.1:7890${details.image}`}
+									alt={details.first_name}
+									style={{
+										width: "7rem",
+										height: "4rem",
+										borderRadius: "100%",
+									}}
+									className="mr-2"
+								/>
+								<button
+									onClick={logoutClickHandler}
+									className="btn btn-outline-danger btn-block mt-2"
+								>
+									Log Out
+								</button>
+							</div>
+
+							<span
+								className="font-weight-bold "
+								style={{
+									fontSize: "1rem",
+									textTransform: "capitalize",
+									paddingTop: "0px",
+            
+								}}
+							>
+								{`${details.first_name} ${details.last_name}`}
+							</span>
+						</div>
+					) : (
+						<button
+							onClick={loginClickHandler}
+							className="btn btn-outline-warning btn-block mt-1"
+						>
+							Log in
+						</button>
+					)}
 				</form>
 			</div>
 		</nav>

@@ -5,6 +5,10 @@ import HttpMethods from "./httpMethods";
 const sendGetRequest = (relativeUrl) => {
   const url = ServerUrl.BASE_URL + relativeUrl;
   const options = { headers: ApiUtils.getAuthHeader() };
+  if(options.headers.Authorization === 'JWT null') {
+    options.headers.Authorization = ""
+  }
+  
   return fetch(url, options)
     .then(ApiUtils.statusHandler)
     .then(ApiUtils.jsonHandler)
@@ -35,7 +39,7 @@ const sendPostRequest = (relativeUrl, requestBody, isAuth, isFormData) => {
     .then(ApiUtils.statusHandler)
     .then(ApiUtils.jsonHandler)
     .then((data) => data)
-    .catch((error) => error);
+    .catch((error) => `error ${error}`);
 };
 
 const ApiConnector = {

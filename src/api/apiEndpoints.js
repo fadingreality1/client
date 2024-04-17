@@ -7,7 +7,8 @@ const ApiEndpoints = {
   CHAT_MESSAGE_URL: "api/v1/chats/<chatId>/messages",
   CREATE_POST: "api/v1/create/post/",
   FEED: "api/v1/feed/",
-  LIKE: "api/v1/post/like/"
+  LIKE: "api/v1/post/like/",
+  PROFILE_ICON: "api/v1/get-user"
 };
 
 export default ApiEndpoints;
