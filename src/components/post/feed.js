@@ -42,27 +42,12 @@ const Feed = () => {
 				likes: element.likes,
 				dateposted:element.date_posted,
 			};
-
 			temp.push(obj);
 		});
 		setFeed(temp);
 	};
 
 	const handleLike = async (id) => {
-		// const tag = event.target.tagName.toLowerCase();
-		// let icon, btn;
-		// if (tag === "button") {
-		// 	btn = event.target;
-		// 	icon = btn.children[0];
-		// } else {
-		// 	icon = event.target.parentNode;
-		// 	btn = icon.parentNode;
-		// }
-
-		// btn.style.backgroundColor = "white";
-		// icon.setAttribute("fill", "red");
-
-		// console.log(event.target);
 		const req = { id: id };
 
 		const successLikeData = await ApiConnector.sendPostRequest(
@@ -125,6 +110,14 @@ const Feed = () => {
 
 				{feed.length > 0 &&
 					feed.map((ele) => {
+						if(ele.flag) {
+							color.btnColor = "white"
+							color.textColor = "red"
+						} else {
+							color.btnColor = "red"
+							color.textColor = "white"
+						}
+
 						return (
 							<div key={ele.id}>
 								<MDBContainer className="py-5">
@@ -224,8 +217,8 @@ const Feed = () => {
 													/>
 												</svg>
 												<span style={{
-													color: `${color.textColor}`
-												}}>{ele.likes}</span>
+													color: `${color.textColor}`,
+												}} className="ml-2">{ele.likes}</span>
 											</button>
 										</div>
 									</MDBCard>

@@ -5,6 +5,7 @@ import CookieUtil from "../../util/cookieUtil";
 import Constants from "../../lib/constants";
 import { useEffect, useState } from "react";
 import ApiUtils from "../../api/apiUtils";
+import logo from "./logo.png";
 
 
 const Navbar = () => {
@@ -30,7 +31,6 @@ const Navbar = () => {
 		const url = ApiEndpoints.PROFILE_ICON;
 		const profileDetails = await ApiConnector.sendGetRequest(url);
 		setDetails(profileDetails);
-		console.log(details);
 	};
 
 	useEffect(() => {
@@ -44,8 +44,8 @@ const Navbar = () => {
 	},[]);
 
 	return (
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<img src="./logo.png" style={{
+		<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+			<img src={logo} style={{
                 width: "10rem"
             }}/>
 
