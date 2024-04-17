@@ -25,7 +25,7 @@ const LoginScreen = ({ location }) => {
       Object.keys(successLoginData).forEach((key) => {
         CookieUtil.setCookie(key, successLoginData[key]);
       });
-      window.location.href = AppPaths.HOME;
+      window.location.href = AppPaths.FEED;
     }
   };
 

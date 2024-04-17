@@ -3,14 +3,14 @@ import ApiEndpoints from "../../api/apiEndpoints";
 import ApiConnector from "../../api/apiConnector";
 import { useForm } from "react-hook-form";
 import AppPaths from "../../lib/appPaths";
-import './createpost.css';
+import "./createpost.css";
 import Pic1 from "../../projectPics/Pic1.jpg";
 import Pic3 from "../../projectPics/Pic3.jpg";
 import Pic2 from "../../projectPics/Pic2.jpg";
 import Pic4 from "../../projectPics/Pic4.jpg";
 import Pic5 from "../../projectPics/Pic5.jpg";
 
-const CreatePost = ({modal, setModal}) => {
+const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 	const [description, setDesription] = useState("");
 	const [file, setFile] = useState(null);
 	const [postData, setPostData] = useState({});
@@ -22,11 +22,11 @@ const CreatePost = ({modal, setModal}) => {
 	} = useForm();
 
 	const image = watch("image");
-	let display = 'none';
-	if(modal) display = 'block';
+	let display = "none";
+	if (modal) display = "block";
 
 	const handleClick = async (postData) => {
-		setModal(!modal);
+		console.log('postdata')
 		const formData = new FormData();
 		formData.append("image", image[0]);
 		delete postData["image"];
@@ -40,8 +40,17 @@ const CreatePost = ({modal, setModal}) => {
 			true,
 			true
 		);
-		
+
+		if (successLoginData) {
+			fetchFeeds();
+		}
+		setModal(!modal);
 	};
+
+	window.onclick = (event) => {
+		console.log(event.target.id)
+		if(event.target.id === 'feedbody' || event.target.id==='feedcard') setModal(false);
+	}
 
 	// return (
 	//     <div style={{background:'cyan',width:'450px',diaplay:'flex',justifyContent:'center',alignItems:'center',marginLeft:'33%',marginTop:'20%'}}>
@@ -62,8 +71,11 @@ const CreatePost = ({modal, setModal}) => {
 	return (
 		<div
 			className="post"
-			style={{                             
-				display: `${display}`
+			style={{
+				display: `${display}`,
+				position: 'fixed',
+				top: '-8rem',
+				left: '25rem',
 			}}
 		>
 			<div
@@ -72,24 +84,24 @@ const CreatePost = ({modal, setModal}) => {
 					justifyContent: "center",
 					alignItems: "center",
 					height: "100vh",
-                    opacity:'1'
+					opacity: "1",
 				}}
 			>
 				<div
 					style={{
 						background:
 							"linear-gradient(to bottom right, #00bcd4, #4db6ac)",
-                        // backgroundColor:"transparent",
+						// backgroundColor:"transparent",
 						width: "450px",
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
-                        fontSize:"1.1rem",
-                        fontWeight:'500',
+						fontSize: "1.1rem",
+						fontWeight: "500",
 						borderRadius: "10px",
 						boxShadow: "0 4px 6px rgba(0, 0, 0, 0.8)",
 						padding: "20px",
-                        color:"black",
+						color: "black",
 					}}
 				>
 					<form
@@ -127,11 +139,35 @@ const CreatePost = ({modal, setModal}) => {
 								width: "100%",
 								boxSizing: "border-box",
 							}}
-                            placeholder="Add Caption..."
+							placeholder="Add Caption..."
 						/>
+
 
 						<button
 							type="submit"
+							style={{
+								backgroundColor: "#388e3c",
+								color: "white",
+								border: "none",
+								borderRadius: "5px",
+								padding: "10px 20px",
+								cursor: "pointer",
+								transition: "background-color 0.3s", // Added transition effect
+								marginTop: "10px", // Adjusted margin top for spacing
+								position: 'sticky'
+							}}
+							onMouseEnter={(e) => {
+								e.target.style.backgroundColor = "lime";
+							}} // Change color on hover
+							onMouseLeave={(e) => {
+								e.target.style.backgroundColor = "#388e3c";
+							}} // Revert color on mouse leave
+						>
+							Add Post
+						</button>
+
+						<div
+							onClick={() => {setModal(!modal)}}
 							style={{
 								backgroundColor: "#388e3c",
 								color: "white",
@@ -149,8 +185,8 @@ const CreatePost = ({modal, setModal}) => {
 								e.target.style.backgroundColor = "#388e3c";
 							}} // Revert color on mouse leave
 						>
-							Add Post
-						</button>
+							Cancel
+						</div>
 					</form>
 				</div>
 			</div>

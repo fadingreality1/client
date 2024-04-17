@@ -46,6 +46,11 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
+    if(data.message === 'roomid:qwerty') {
+      window.location.href = '/room/qwerty';
+      return;
+    }
+    // console.log('sdsaddsdhcdhciwdchi')
     const chatId = CommonUtil.getActiveChatId(match);
     const userId = CommonUtil.getUserId();
     if (chatId === data.roomId) {
@@ -109,11 +114,16 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
     }
   };
 
-  const logoutClickHandler = () => {
-    CookieUtil.deleteCookie(Constants.ACCESS_PROPERTY);
-    CookieUtil.deleteCookie(Constants.REFRESH_PROPERTY);
-    window.location.href = AppPaths.LOGIN;
-  };
+  const callClickHandler = () => {
+    socket.send(
+      JSON.stringify({
+        action: SocketActions.MESSAGE,
+        message: 'roomid:qwerty',
+        user: CommonUtil.getUserId(),
+        roomId: CommonUtil.getActiveChatId(match),
+      })
+    );
+  }
 
   return (
     <div className="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-10 pl-0 pr-0">
@@ -131,10 +141,10 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
           <div className="flex-grow-1 pl-3">
             <strong>{currentChattingMember?.name}</strong>
             <button
-              onClick={logoutClickHandler}
-              className="btn btn-outline-danger btn-block mt-1"
+              onClick={callClickHandler}
+              className="btn btn-outline-warning btn-block mt-1"
             >
-              Log Out
+              Call
             </button>
           </div>
         </div>

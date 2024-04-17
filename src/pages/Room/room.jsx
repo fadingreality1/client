@@ -14,7 +14,11 @@ const Room = () => {
             container: element,
             scenario: {
                 mode: ZegoUIKitPrebuilt.OneONoneCall,
-            }
+            },
+            showScreenSharingButton: false,
+            showAudioVideoSettingsButton: false,
+            showPinButton: false,
+            
         })
     }
     return (

@@ -35,7 +35,7 @@ const sendPostRequest = (relativeUrl, requestBody, isAuth, isFormData) => {
     .then(ApiUtils.statusHandler)
     .then(ApiUtils.jsonHandler)
     .then((data) => data)
-    .catch((error) => false);
+    .catch((error) => error);
 };
 
 const ApiConnector = {
