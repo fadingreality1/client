@@ -7,6 +7,7 @@ import ServerUrl from "../../api/serverUrl";
 import Constants from "../../lib/constants";
 import SocketActions from "../../lib/socketActions";
 import CommonUtil from "../../util/commonUtil";
+import CryptoJS from "crypto-js";
 import "./chatBodyStyle.css";
 
 let socket = new WebSocket(
@@ -14,6 +15,8 @@ let socket = new WebSocket(
 );
 let typingTimer = 0;
 let isTypingSignalSent = false;
+
+const SECRET_PASS = "thisisasecretpassforencryption";
 
 const ChatBody = ({
 	match,
@@ -24,6 +27,7 @@ const ChatBody = ({
 	const [inputMessage, setInputMessage] = useState("");
 	const [messages, setMessages] = useState({});
 	const [typing, setTyping] = useState(false);
+	const [encryptData, setEncryptData] = useState("");
 
 	let meStatus = "";
 	if (currentChattingMember.id === currentUser) meStatus = "(me)";
@@ -37,6 +41,15 @@ const ChatBody = ({
 					currentChatId
 				) + "?limit=20&offset=0";
 			const chatMessages = await ApiConnector.sendGetRequest(url);
+			const resArray = chatMessages.results;
+
+			resArray.map((message, ind) => {
+				const bytes = CryptoJS.AES.decrypt(message.message, SECRET_PASS);
+				const msg = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+				chatMessages.results[ind].message = msg;
+				console.log(chatMessages.results[ind].message)
+			});
+
 			setMessages(chatMessages);
 		}
 	};
@@ -58,13 +71,16 @@ const ChatBody = ({
 			window.location.href = "/room/qwerty";
 			return;
 		}
-		// console.log('sdsaddsdhcdhciwdchi')
+
 		const chatId = CommonUtil.getActiveChatId(match);
 		const userId = CommonUtil.getUserId();
 		if (chatId === data.roomId) {
 			if (data.action === SocketActions.MESSAGE) {
 				data["userImage"] =
 					ServerUrl.BASE_URL.slice(0, -1) + data.userImage;
+				const bytes = CryptoJS.AES.decrypt(data.message, SECRET_PASS);
+				const msg = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+				data.message = msg;
 				setMessages((prevState) => {
 					let messagesState = JSON.parse(JSON.stringify(prevState));
 					messagesState.results.unshift(data);
@@ -89,13 +105,14 @@ const ChatBody = ({
 			socket.send(
 				JSON.stringify({
 					action: SocketActions.MESSAGE,
-					message: inputMessage,
+					message: encryptData,
 					user: CommonUtil.getUserId(),
 					roomId: CommonUtil.getActiveChatId(match),
 				})
 			);
 		}
 		setInputMessage("");
+		setEncryptData("");
 	};
 
 	const sendTypingSignal = (typing) => {
@@ -226,9 +243,14 @@ const ChatBody = ({
 				<form onSubmit={messageSubmitHandler}>
 					<div className="input-group">
 						<input
-							onChange={(event) =>
-								setInputMessage(event.target.value)
-							}
+							onChange={(event) => {
+								const encData = CryptoJS.AES.encrypt(
+									JSON.stringify(event.target.value),
+									SECRET_PASS
+								).toString();
+								setEncryptData(encData);
+								return setInputMessage(event.target.value);
+							}}
 							onKeyUp={chatMessageTypingHandler}
 							value={inputMessage}
 							id="chat-message-input"
