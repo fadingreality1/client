@@ -89,8 +89,8 @@ const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 			>
 				<div
 					style={{
-						background:
-							"linear-gradient(to bottom right, #00bcd4, #4db6ac)",
+						// background:
+						// 	"linear-gradient(to bottom right, #d8ff07, #d8ff07)",
 						// backgroundColor:"transparent",
 						width: "450px",
 						display: "flex",
@@ -103,6 +103,7 @@ const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 						padding: "20px",
 						color: "black",
 					}}
+					className="bg-light"
 				>
 					<form
 						onSubmit={handleSubmit(handleClick)}
@@ -157,7 +158,7 @@ const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 								position: 'sticky'
 							}}
 							onMouseEnter={(e) => {
-								e.target.style.backgroundColor = "lime";
+								e.target.style.backgroundColor = "#006500";
 							}} // Change color on hover
 							onMouseLeave={(e) => {
 								e.target.style.backgroundColor = "#388e3c";
@@ -169,7 +170,7 @@ const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 						<div
 							onClick={() => {setModal(!modal)}}
 							style={{
-								backgroundColor: "#388e3c",
+								backgroundColor: "red",
 								color: "white",
 								border: "none",
 								borderRadius: "5px",
@@ -179,10 +180,10 @@ const CreatePost = ({ modal, setModal, fetchFeeds }) => {
 								marginTop: "10px", // Adjusted margin top for spacing
 							}}
 							onMouseEnter={(e) => {
-								e.target.style.backgroundColor = "lime";
+								e.target.style.backgroundColor = "#cc0000";
 							}} // Change color on hover
 							onMouseLeave={(e) => {
-								e.target.style.backgroundColor = "#388e3c";
+								e.target.style.backgroundColor = "red";
 							}} // Revert color on mouse leave
 						>
 							Cancel

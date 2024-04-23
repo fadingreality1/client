@@ -19,7 +19,6 @@ const Room = () => {
             first_name: profileDetails.first_name,
             last_name: profileDetails.last_name
         }));
-        console.log(currentUser)
 	};
 
 	useEffect(() => {
@@ -27,6 +26,7 @@ const Room = () => {
 	},[]);
     
 	const myMeeting = async (element) => {
+        const user = `${currentUser.first_name}, ${currentUser.last_name}`;
 		const appId = 2025032658;
 		const serverSecret = "61bcbf8d625ab11a91c09ed88ae4b479";
 		const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
@@ -34,7 +34,7 @@ const Room = () => {
 			serverSecret,
 			roomid,
 			Date.now().toString(),
-			`${currentUser.first_name}, ${currentUser.last_name}`
+			user
 		);
 		const zc = ZegoUIKitPrebuilt.create(kitToken);
 		zc.joinRoom({
@@ -45,6 +45,11 @@ const Room = () => {
 			showScreenSharingButton: false,
 			showAudioVideoSettingsButton: false,
 			showPinButton: false,
+            showTextChat: false,
+            showRoomDetailsButton: false,
+            showLeaveRoomConfirmDialog: false,
+            showUserList: false,
+
 		});
 	};
 	return (
