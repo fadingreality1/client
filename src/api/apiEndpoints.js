@@ -8,7 +8,8 @@ const ApiEndpoints = {
   CREATE_POST: "api/v1/create/post/",
   FEED: "api/v1/feed/",
   LIKE: "api/v1/post/like/",
-  PROFILE_ICON: "api/v1/get-user"
+  PROFILE_ICON: "api/v1/get-user",
+  SEARCH: "api/v1/search"
 };
 
 export default ApiEndpoints;

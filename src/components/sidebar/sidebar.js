@@ -51,15 +51,25 @@ const Sidebar = (props) => {
     return connectedUsers.slice(0, -1);
   };
 
-  const fetchUsers = async () => {
-    const url = ApiEndpoints.USER_URL + "?exclude=" + getConnectedUserIds();
-    const users = await ApiConnector.sendGetRequest(url);
-    console.log(users);
-    setUsers(users);
+  const fetchUsers = async (event) => {
+    // const url = ApiEndpoints.USER_URL + "?exclude=" + getConnectedUserIds();
+    // const users = await ApiConnector.sendGetRequest(url);
+    // setUsers(users);
+    const req = {query: event.target.value}
+    const url = ApiEndpoints.SEARCH;
+    const users = await ApiConnector.sendPostRequest(
+      url,
+      JSON.stringify(req),
+      true,
+      false
+    );
+
+    setUsers(() => users);
+
   };
 
   const addPeopleClickHandler = async () => {
-    await fetchUsers();
+    // await fetchUsers();
     setIsShowAddPeopleModal(true);
   };
 
@@ -171,6 +181,8 @@ const Sidebar = (props) => {
         modalCloseHandler={() => setIsShowAddPeopleModal(false)}
         show={isShowAddPeopleModal}
       >
+        <input placeholder="Search User Here..." onChange={fetchUsers}
+        className="m-3 border-warning"/>
         {users.length > 0 ? (
           users?.map((user) => (
             <div
@@ -178,7 +190,7 @@ const Sidebar = (props) => {
               className="d-flex align-items-start pt-1 pb-1 d-flex align-items-center"
             >
               <img
-                src={user.image}
+                src={`http://127.0.0.1:7890${user.image}`}
                 className="rounded-circle mr-1"
                 alt={user.first_name + " " + user.last_name}
                 width="40"
