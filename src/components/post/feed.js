@@ -128,15 +128,6 @@ const Feed = () => {
 										<div id="feedcard">
 											<MDBRow className="mb-3">
 												<MDBCol col="6">
-													{/* <MDBIcon
-														fas
-														icon="plane"
-														className="me-1"
-													/> */}
-													{/* <div style={{display:"flex",flexDirection:"row"}}>
-													<img src={ele.author.image} style={{width:"50px",height:"50px",borderRadius:"50%"}}/>
-													<p style={{fontSize:"1.4rem",textTransform:"capitalize",paddingLeft:"10px",paddingTop:"5px",fontWeight:"500"}}>{ele.author.full_name}</p>
-									a	e			</div> */}
 													<div className="d-flex flex-row align-items-center">
 														<img
 															src={

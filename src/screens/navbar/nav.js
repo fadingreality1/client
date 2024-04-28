@@ -44,7 +44,8 @@ const Navbar = () => {
 	},[]);
 
 	return (
-		<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+		
+		<nav class="navbar navbar-expand-lg navbar-light bg-light position-sticky" >
 			<img src={logo} style={{
                 width: "10rem"
             }}/>
@@ -119,6 +120,7 @@ const Navbar = () => {
 				</form>
 			</div>
 		</nav>
+		
 	);
 };
 
